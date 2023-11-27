@@ -3,8 +3,8 @@ package gin_pagination
 import "gorm.io/gorm"
 
 type Config struct {
-	pageSizeDefaultVal string
-	db                 *gorm.DB
+	PageSizeDefaultVal string
+	DB                 *gorm.DB
 }
 
 var options *Config
