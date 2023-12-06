@@ -1,30 +1,31 @@
 # gin-pagination
-gin-pagination
+Pagination for Gin and Gorm
 
 ## Install
 ```
-go get github.com/xusenlin/gin-pagination@v0.0.1-alpha
+go get github.com/xusenlin/gin-pagination@v0.0.3-alpha
 ```
 
 ## Usage
 
 ### init
-```go
+```golang
 import (
     ginPagination "github.com/xusenlin/gin-pagination"
 )
 //...Conn is *gorm.DB
 ginPagination.Init(&ginPagination.Config{
-    PageSizeDefaultVal: "10",
+    PageSizeMaxVal:     100,
+    PageSizeDefaultVal: 20,
     DB:                 Conn,
 })
 ```
 ### pagination
-```go
+```golang
 import (
     ginPagination "github.com/xusenlin/gin-pagination"
 )
-//...Conn is *gorm.DB
+
 func List(c *gin.Context) {
     
     model := new(Repository)
@@ -54,7 +55,7 @@ func List(c *gin.Context) {
 ```
 
 ## Pagination struct
-```go
+```golang
 type Pagination[T any] struct {
 	List      []T   `json:"list"`
 	Total     int64 `json:"total"`
