@@ -28,6 +28,9 @@ func computeTotalPage(total int64, pageSize int) int {
 func New[T any](model T, c *gin.Context) *Pagination[T] {
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", options.PageSizeDefaultVal))
+	if pageSize > options.PageSizeMaxVal {
+		pageSize = options.PageSizeMaxVal
+	}
 	return &Pagination[T]{
 		List:     make([]T, 0),
 		PageSize: pageSize,
