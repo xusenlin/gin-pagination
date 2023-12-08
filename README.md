@@ -22,22 +22,13 @@ ginPagination.Init(&ginPagination.Config{
 ```
 ### pagination
 ```golang
-import (
-    ginPagination "github.com/xusenlin/gin-pagination"
-)
 
-func List(c *gin.Context) {
+func Find(c *gin.Context) {
     
-    model := new(Repository)
+    model := new(User)
+    pagination := ginPagination.New[*User](model, c)
     
-    pagination := ginPagination.New[*Repository](model, c)
-    
-    pagination.Eq("id").Like("name")
-    pagination.Eq("id").Like("name")
-    pagination.Gt("age").Lt("fff")
-    pagination.CB(func(db *gorm.DB) {
-        db.Where("name2 IN ?", []string{"jinzhu", "jinzhu"})
-    })
+    pagination.Like("name").Eq("id") //...more
     
     err := pagination.Query()
     
@@ -45,12 +36,12 @@ func List(c *gin.Context) {
         tools.SendErrJson(c, err)
         return
     }
-	//pagination.List is []Repository
-    if len(pagination.List) >0{
-        fmt.Println(pagination.List[0].Name)
+    
+    for idx := range pagination.List {
+        pagination.List[idx].Password = "***"
     }
     
-    tools.SendOkJson(c, "", pagination)
+    tools.SendOkJson(c, "search successful", pagination)
 }
 ```
 
